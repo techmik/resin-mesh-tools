@@ -1,0 +1,8 @@
+# Needed only by voxel_inner_shell.py (run with a regular python.exe, not
+# blender.exe -- Blender's bundled Python doesn't have these).
+# trimesh: voxelization, marching cubes reconstruction, mesh I/O
+# scipy: binary_erosion for the actual morphological shrink
+# scikit-image: ball() structuring element for isotropic erosion
+trimesh
+scipy
+scikit-image
