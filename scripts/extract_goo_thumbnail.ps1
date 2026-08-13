@@ -6,14 +6,22 @@
 .DESCRIPTION
     .goo is Elegoo Satellite's proprietary sliced-file format -- not a
     standard image and not documented publicly, so it can't be parsed
-    directly. But Explorer already shows a thumbnail for it (a shell
-    extension installed alongside Satellite knows how to render it), so
-    this asks Windows for that same thumbnail via the IShellItemImageFactory
-    COM interface instead of trying to reverse-engineer the binary format.
+    directly. But Explorer already shows a thumbnail for it once a shell
+    extension that knows how to render .goo is registered -- confirmed
+    (2026-08-13) that this comes from ChiTuBox, not Satellite itself:
+    Satellite alone never registers a .goo thumbnail handler (empty
+    shellex key in the registry), and thumbnails/this script both fail
+    with 0x8004B200 (WTS_E_FAILEDEXTRACTION) on a machine that has
+    Satellite but not ChiTuBox installed. This script asks Windows for
+    that same OS-level thumbnail via the IShellItemImageFactory COM
+    interface instead of trying to reverse-engineer the binary format.
     Confirmed working against a real sliced .goo file -- a from-scratch
     attempt to manually parse the header/pixel data first produced garbage
     (a misread header field claimed a 900-million-pixel image); asking the
     OS for the thumbnail it already knows how to make was the reliable path.
+
+    Requires ChiTuBox to be installed (for its shell thumbnail handler),
+    even though the .goo files themselves come from Satellite.
 
 .PARAMETER SourcePath
     Path to the .goo (or other) file to extract a thumbnail from.
